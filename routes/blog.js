@@ -39,7 +39,7 @@ route.get("/fetchByCategory", async (req, res) => {
   }
 });
 
-// / / ROUTE 2: Get All the blogs of user using: GET "/fetchUser". Login required
+// / / ROUTE 3: Get All the blogs of user using: GET "/fetchUser". Login required
 route.get("/fetchUser", authenticate, async (req, res) => {
   try {
     const blog = await Blog.find({ user: req.user.id }).sort({ date: -1 });
@@ -49,7 +49,7 @@ route.get("/fetchUser", authenticate, async (req, res) => {
   }
 });
 
-// / / ROUTE 3: Get blogs by id using: GET "/fetchblog/:id". Login required
+// / / ROUTE 4: Get blogs by id using: GET "/fetchblog/:id". Login required
 route.get("/fetchblog/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -59,7 +59,7 @@ route.get("/fetchblog/:id", async (req, res) => {
   }
 });
 
-// / / ROUTE 4: Get blogs by id using: GET "/fetchblog/:id". Login required
+// / / ROUTE 5: Get user blogs by id using: GET "/fetchuserblog/:id". Login required
 route.get("/fetchuserblog/:id", authenticate, async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -69,7 +69,7 @@ route.get("/fetchuserblog/:id", authenticate, async (req, res) => {
   }
 });
 
-// / / ROUTE 4: Create a new blog using: POST "/upload". Login required
+// / / ROUTE 6: Create a new blog using: POST "/upload". Login required
 route.post(
   "/upload",
   authenticate,
@@ -87,13 +87,13 @@ route.post(
   }
 );
 
-// / / ROUTE 5: Delete an existing Note using: DELETE "/delete". Login required
+// / / ROUTE 7: Delete an existing Note using: DELETE "/delete". Login required
 route.delete("/delete/:id", authenticate, async (req, res) => {
   let blog = await Blog.deleteOne({ _id: req.params.id });
   res.send(blog);
 });
 
-// / / ROUTE 6: Update an existing Note using: PUT "/update". Login required
+// / / ROUTE 8: Update an existing Note using: PUT "/update". Login required
 route.put(
   "/update/:id",
   authenticate,
@@ -122,18 +122,5 @@ route.put(
     res.send(blog);
   }
 );
-
-// / / ROUTE 7: Get All the blogs of user as per category using: GET "/fetchUser". Login required
-route.get("/category/:cat", async (req, res) => {
-  console.log(req.params.cat);
-  try {
-    const blog = await Blog.find({ blog_category: req.params.cat }).sort({
-      date: -1,
-    });
-    res.send(blog);
-  } catch (error) {
-    res.status(500).send({ error: "Internal Server Error" });
-  }
-});
 
 module.exports = route;
